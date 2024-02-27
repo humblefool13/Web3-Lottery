@@ -10,5 +10,6 @@ MIT License
 - ChainLink VRF is used to determine the winners.
 - Withdraw any extra $LINK on the contract.
 - 5% of funds stay in contract ( more of like a storage/treasury )
+- Also has a RUG function ( just for fun/education kek ) **real purpose:** To just pull out all test ETH and test $LINK if I wanted to make any changes and redeploy the contract.
 
 **__Made by humblefool13.dev on Feb 27, 2024__**
