@@ -11,114 +11,90 @@
 				"type": "constructor"
 			},
 			{
-				"stateMutability": "payable",
-				"type": "fallback"
-			},
-			{
+				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": true,
 						"internalType": "address",
-						"name": "",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
 						"type": "address"
 					}
 				],
-				"name": "addressToNumberOfTickets",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
+				"name": "OwnershipTransferRequested",
+				"type": "event"
 			},
 			{
+				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": true,
 						"internalType": "address",
-						"name": "",
+						"name": "from",
 						"type": "address"
-					}
-				],
-				"name": "addressToTip",
-				"outputs": [
+					},
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "buyTicket",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "childContract",
-				"outputs": [
-					{
-						"internalType": "contract myProfit",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "creator",
-				"outputs": [
-					{
+						"indexed": true,
 						"internalType": "address",
-						"name": "",
+						"name": "to",
 						"type": "address"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
+				"name": "OwnershipTransferred",
+				"type": "event"
 			},
 			{
 				"inputs": [],
-				"name": "currentlotteryID",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "distributeRewards",
+				"name": "acceptOwnership",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "deployerParent",
+				"outputs": [
+					{
+						"internalType": "contract lottery",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_requestId",
+						"type": "uint256"
+					},
 					{
 						"internalType": "uint256[]",
 						"name": "_randomWords",
 						"type": "uint256[]"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "_prizes",
-						"type": "uint256[]"
 					}
 				],
-				"name": "gotRandomWords",
+				"name": "rawFulfillRandomWords",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -127,58 +103,43 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "one",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "two",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "three",
+						"type": "uint256"
+					}
+				],
+				"name": "requestRandomWords",
+				"outputs": [
+					{
+						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
 					}
 				],
-				"name": "participants",
-				"outputs": [
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "to",
 						"type": "address"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "randomGenerator",
-				"outputs": [
-					{
-						"internalType": "contract RandomNumber",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "withdrawAllLinkFromContract",
+				"name": "transferOwnership",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "withdrawEverythingAlsoCalledRugLol",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "withdrawTip",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"stateMutability": "payable",
-				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -188,13 +149,23 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"acceptOwnership()": {
+					"notice": "Allows an ownership transfer to be completed by the recipient."
+				},
+				"owner()": {
+					"notice": "Get the current owner"
+				},
+				"transferOwnership(address)": {
+					"notice": "Allows an owner to begin transferring ownership to a new address, pending."
+				}
+			},
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/lottery.sol": "lottery"
+			"contracts/getRandom.sol": "RandomNumber"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -265,19 +236,19 @@
 			]
 		},
 		"contracts/getRandom.sol": {
-			"keccak256": "0x0bbf4156536803294c33c3ea8d4a43ff1c5f772c593e3cc2420ac9bfa2172fb2",
+			"keccak256": "0x524cbf9a5c71fbbc8cf0d50ba9ae22064b88d6f3eda8480e89337dca832c2ffc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://00fe3b58aae25bd9ea7ca355e9be5748f04f19ddebfed17cec19b67f61ed53e9",
-				"dweb:/ipfs/QmRVBbJyeSETZKs6tziiWkEJRNP1uaCTCdHSvqEP1Hsvws"
+				"bzz-raw://0325323bcffe99e5f515d9db7412094a92491759f083a62d8b92d9c68c06cc00",
+				"dweb:/ipfs/QmfBKFYctEQLtFqUouHPNxC9A4bqRThMqDdSzU2G5XcryW"
 			]
 		},
 		"contracts/lottery.sol": {
-			"keccak256": "0xde903aaf54e3ae5502e582f6d40891c8f5d11ab00321707c28e1d700eb433cd6",
+			"keccak256": "0xb14491a4b6d98eac54a5238da6d9c5852339968b5f51d2c20226a8ec23bdc934",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3fd8e1045147bea3383f3b193a071879712c7313bec0ca95889596cce85b5302",
-				"dweb:/ipfs/QmYsjuZAKxWERWnnLdPw5swKcRXuiKfV4uG7zSXzXTtFHE"
+				"bzz-raw://c60baf1967df08743fb09cd0e717cb79c0e84413b3438a8ef366cb7905849076",
+				"dweb:/ipfs/QmRwJxc8fcq3ZtfSjGTu9J1MS8uk1MBQVKWFLdjJ7B66U1"
 			]
 		},
 		"contracts/myProfit.sol": {
