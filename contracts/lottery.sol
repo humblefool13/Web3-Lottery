@@ -42,7 +42,7 @@ contract lottery {
 
     function buyTicket() public payable {
         require(msg.value.toUSD() > MINIMUM_USD, "Need to send more.");
-        uint256 tip = msg.value.toUSD() % MINIMUM_USD;
+        uint256 tip = (msg.value.toUSD() % MINIMUM_USD).toWEI();
         if(!isNewBuyer(msg.sender)) {
             participants.push(msg.sender);
             addressToNumberOfTickets[msg.sender] = (msg.value.toUSD() -  msg.value.toUSD() % MINIMUM_USD) / MINIMUM_USD;
@@ -68,14 +68,13 @@ contract lottery {
 
     function distributeRewards() public onlyOwner {
         uint256 balanceInContract = address(this).balance;
-        uint256 ownerReward = (balanceInContract * 5)/100;
         (bool sentToContract, ) = payable(address(childContract)).call{
-            value: ownerReward
+            value: balanceInContract.findPercentageRounded(5)
         }("");
         require(sentToContract, "Call Failed. Couldn't send to child contract.");
-        uint256 firstPrize = (balanceInContract * 50) / 100;
-        uint256 secondPrize = (balanceInContract * 30) / 100;
-        uint256 thirdPrize = (balanceInContract * 10) / 100;
+        uint256 firstPrize = balanceInContract.findPercentageRounded(50);
+        uint256 secondPrize = balanceInContract.findPercentageRounded(30);
+        uint256 thirdPrize = balanceInContract.findPercentageRounded(10);
         currentlotteryID = randomGenerator.requestRandomWords(firstPrize, secondPrize, thirdPrize);
     }
 
@@ -99,10 +98,14 @@ contract lottery {
     function withdrawTip() public {
         require(addressToTip[msg.sender] > 0, "No Tip to withdraw!");
         (bool sent, ) = payable(msg.sender).call{
-            value: addressToTip[msg.sender]
+            value: addressToTip[msg.sender].findPercentageRounded(95) 
         }("");
         require(sent, "Failed");
         addressToTip[msg.sender] = 0;
+        (bool sentOwner, ) = payable(address(childContract)).call{
+            value: addressToTip[msg.sender].findPercentageRounded(5) 
+        }("");
+        require(sentOwner, "Failed to send to owner");
     }
 
     function withdrawAllLinkFromContract() public onlyOwner {
@@ -120,6 +123,10 @@ contract lottery {
         }("");
         randomGenerator.withdrawETH();
         require(sent, "Failed");
+    }
+
+    function withdrawProfit() onlyOwner public {
+        childContract.withdrawMyProfit();
     }
 
     modifier onlyOwner() {

@@ -22,4 +22,20 @@ library uintLibrary {
         uint amountInUSD = (ethPrice * ethAmount) / 1e18;
         return amountInUSD;
     }
+
+    function toWEI(uint256 usdAmount)
+        internal
+        view
+        returns (uint256)
+    {
+        uint ethPrice = getPrice();
+        uint amount = usdAmount * 1e18 / ethPrice;
+        return amount;
+    }
+
+    function findPercentageRounded(uint256 _balance, uint256 percentage) internal pure returns (uint256) {
+        uint amountToRemove = _balance % 100;
+        uint roundedAmount = _balance - amountToRemove;
+        return ((roundedAmount * percentage ) /  100 );
+    }
 }

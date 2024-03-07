@@ -20,7 +20,7 @@ contract myProfit {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == creator, "Not Allowed! You are not the owner");
+        require(msg.sender == creatorContract, "Not Allowed! You are not the owner");
         _;
     }
 }
